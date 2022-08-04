@@ -1,16 +1,40 @@
-/** Grammars always start with a grammar header. This grammar is called
- *  IcaroCompiler and must match the filename: Icaro.g4
- */
 grammar Icaro;
 
-/** A rule called init that matches comma-separated values between {...}. */
-init  : '{' value (',' value)* '}' ;  // must match at least one value
+icaroFile : statement (NEWLINE+ statement)* EOF ;
 
-/** A value can be either a nested array/struct or a simple integer (INT) */
-value : init
-      | INT
-      ;
+statement : assignment_statement
+            | print_statement ;
 
-// parser rules start with lowercase letters, lexer rules with uppercase
-INT :   [0-9]+ ;             // Define token INT as one or more digits
-WS  :   [ \t\r\n]+ -> skip ; // Define whitespace rule, toss it out
+assignment_statement : VARIABLE_IDENTIFIER ' ' ASSIGNMENT_OPERATOR ' ' expression ;
+
+print_statement : PRINT_KEYWORD ' ' expression ;
+
+expression : expression ' ' (MULTIPLICATION_OPERATOR | DIVISION_OPERATOR) ' ' expression     # MultiplicationOrDivision
+             | expression ' ' (ADDITION_OPERATOR | SUBTRACTION_OPERATOR) ' ' expression      # AdditionOrSubtraction
+             | SUBTRACTION_OPERATOR? LEFT_ROUND_BRACKET expression RIGHT_ROUND_BRACKET       # ExpressionInRoundBrackets
+             | SUBTRACTION_OPERATOR? POSITIVE_INT_NUMBER                                     # IntNumber
+             | SUBTRACTION_OPERATOR? VARIABLE_IDENTIFIER                                     # Variable ;
+
+LEFT_ROUND_BRACKET : '(';
+
+RIGHT_ROUND_BRACKET : ')';
+
+ASSIGNMENT_OPERATOR : '=' ;
+
+MULTIPLICATION_OPERATOR : '*' ;
+
+ADDITION_OPERATOR : '+' ;
+
+SUBTRACTION_OPERATOR : '-' ;
+
+DIVISION_OPERATOR : '/' ;
+
+PRINT_KEYWORD : 'print' ;
+
+NEWLINE : '\n' | '\r' ;
+
+POSITIVE_INT_NUMBER : [0-9]+ ;
+
+VARIABLE_IDENTIFIER : [a-z][A-Za-z0-9]* ;
+
+ANY: . ;

@@ -1,0 +1,3 @@
+hisAge = myAge
+
+print hisAge
