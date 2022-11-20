@@ -1,39 +1,16 @@
-import org.antlr.v4.runtime.*
-import org.antlr.v4.runtime.misc.ParseCancellationException
+import IcaroParser.*
 import org.antlr.v4.runtime.tree.TerminalNode
 import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
-import IcaroParser.*
-import org.objectweb.asm.Opcodes.*
+import java.io.File
 
-fun main(args: Array<String>) {
+fun main() {
     try {
+        File("$BINARY_DIR_NAME/$CLASSES_DIR_NAME/Main.class").writeBytes(bytecode("$SOURCE_DIR_NAME/$MAIN_SOURCE_FILE"))
     } catch (e: Throwable) {
         println(e.message)
     }
-}
-
-@Throws(IllegalStateException::class)
-fun generateBytecode(icaroFilePath: String): ByteArray {
-    val parseTree = generateParseTree(icaroFilePath)
-    val className = getClassName(icaroFilePath)
-
-    return IcaroCompiler().generateBytecode(parseTree, className)
-}
-
-@Throws(ParseCancellationException::class)
-fun generateParseTree(icaroFilePath: String): IcaroFileContext {
-    val lexer = IcaroLexer(CharStreams.fromFileName(icaroFilePath))
-    val parser = IcaroParser(CommonTokenStream(lexer))
-
-    lexer.removeErrorListeners()
-    lexer.addErrorListener(IcaroExceptionThrower())
-
-    parser.removeErrorListeners()
-    parser.addErrorListener(IcaroExceptionThrower())
-
-    return parser.icaroFile()
 }
 
 class IcaroCompiler : IcaroBaseVisitor<Unit>() {
@@ -46,7 +23,7 @@ class IcaroCompiler : IcaroBaseVisitor<Unit>() {
 
     private var localVariableNamesToLocalVariableIndexes = mutableMapOf<String, Int>()
 
-    fun generateBytecode(parseTree: IcaroFileContext, className: String): ByteArray {
+    fun generatedBytecode(parseTree: IcaroFileContext, className: String): ByteArray {
         val asmClassWriter = ClassWriter(ClassWriter.COMPUTE_FRAMES)
         asmClassWriter.visit(
             Opcodes.V11,

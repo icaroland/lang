@@ -31,8 +31,5 @@ fun runIcaroFileWithoutGeneratingClassFile(icaroFilePath: String) {
             .invoke(null, arrayOf<String>())
     }
 
-    val bytecode = generateBytecode(icaroFilePath)
-    val className = getClassName(icaroFilePath)
-
-    runBytecode(className, bytecode)
+    runBytecode(className(icaroFilePath), bytecode(icaroFilePath))
 }
