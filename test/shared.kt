@@ -1,5 +1,3 @@
-package e2e
-
 import org.junit.jupiter.api.BeforeEach
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
@@ -18,7 +16,23 @@ open class E2ETest {
         System.setOut(originalStdout)
 
         val actualResult = captureStdoutBuffer.toString().trim().split("\n").map { it.toInt() }
-        
+
         assertEquals(expectedResult, actualResult)
     }
+}
+
+fun runIcaroFileWithoutGeneratingClassFile(icaroFilePath: String) {
+    class IcaroClassLoader : ClassLoader() {
+        fun defineClass(name: String, bytecode: ByteArray): Class<*> = defineClass(name, bytecode, 0, bytecode.size)
+    }
+
+    fun runBytecode(className: String, bytecode: ByteArray) {
+        IcaroClassLoader().defineClass(className, bytecode).getMethod("main", Array<String>::class.java)
+            .invoke(null, arrayOf<String>())
+    }
+
+    val bytecode = generateBytecode(icaroFilePath)
+    val className = getClassName(icaroFilePath)
+
+    runBytecode(className, bytecode)
 }

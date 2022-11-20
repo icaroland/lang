@@ -71,6 +71,7 @@
                 <artifactId>antlr4-maven-plugin</artifactId>
                 <version>${antlr.version}</version>
                 <configuration>
+                    <sourceDirectory>${basedir}/src</sourceDirectory>
                     <arguments>
                         <argument>-visitor</argument>
                         <argument>-no-listener</argument>
@@ -97,7 +98,7 @@
                         </goals>
                         <configuration>
                             <sourceDirs>
-                                <source>src/main/kotlin</source>
+                                <source>src</source>
                                 <source>target/generated-sources/antlr4</source>
                             </sourceDirs>
                         </configuration>
@@ -110,7 +111,7 @@
                         </goals>
                         <configuration>
                             <sourceDirs>
-                                <source>src/test/kotlin</source>
+                                <source>test</source>
                             </sourceDirs>
                         </configuration>
                     </execution>
@@ -126,7 +127,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>IcaroCLIKt</mainClass>
+                            <mainClass>MainKt</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -1,23 +1,22 @@
-package e2e.expression
+package e2e
 
-import e2e.E2ETest
-import generateBytecode
+import E2ETest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import runIcaroFileWithoutGeneratingClassFile
 
-class ExpressionE2ETest : E2ETest() {
+class ExpressionTest : E2ETest() {
     
     @Test
     fun shouldCalculateTheExpressionOnlyWithIntegerCorrectly() {
-        runIcaroFileWithoutGeneratingClassFile("src/test/kotlin/e2e/expression/testfiles/integerMathExpressions.icaro")
+        runIcaroFileWithoutGeneratingClassFile("test/testfiles/integerMathExpressions.icaro")
         
         assertCaptureStdoutBufferIsEqualTo(listOf(1))
     }
     
     @Test
     fun shouldNotConsiderZerosBeforeIntegerNumber() {
-        runIcaroFileWithoutGeneratingClassFile("src/test/kotlin/e2e/expression/testfiles/zerosBeforeInteger.icaro")
+        runIcaroFileWithoutGeneratingClassFile("test/testfiles/zerosBeforeInteger.icaro")
 
         assertCaptureStdoutBufferIsEqualTo(listOf(50))
     }
@@ -25,13 +24,13 @@ class ExpressionE2ETest : E2ETest() {
     @Test
     fun shouldRaiseAnExceptionWhenDivideByZero() {
         assertThrows<IllegalStateException> {
-            runIcaroFileWithoutGeneratingClassFile("src/test/kotlin/e2e/expression/testfiles/divideByZeroExpression.icaro")
+            runIcaroFileWithoutGeneratingClassFile("test/testfiles/divideByZeroExpression.icaro")
         }
     }
  
     @Test
     fun shouldCalculateAllTheGivenMathExpressionCorrectly() {
-        runIcaroFileWithoutGeneratingClassFile("src/test/kotlin/e2e/expression/testfiles/mathExpressions.icaro")
+        runIcaroFileWithoutGeneratingClassFile("test/testfiles/mathExpressions.icaro")
 
         assertCaptureStdoutBufferIsEqualTo(
             listOf(
