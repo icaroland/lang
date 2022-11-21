@@ -1,34 +1,37 @@
-package lexer.variableidentifier
+package lexer
 
-import generateParseTree
+import parseTree
 import org.antlr.v4.runtime.misc.ParseCancellationException
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-class VariableIdentifierLexerRuleTest { 
+class VariableIdentifierRuleTest {
     @Test
     fun shouldNotRaiseExceptionBecauseCamelCaseName() {
         assertDoesNotThrow {
-            generateParseTree("src/test/kotlin/lexer/variableidentifier/testfiles/camelCaseVariableIdentifier.icaro")
+            parseTree("test/testfiles/camelCaseVariableIdentifier.icaro")
         }
     }
+
     @Test
     fun shouldRaiseExceptionBecausePascalCaseName() {
         assertThrows<ParseCancellationException> {
-            generateParseTree("src/test/kotlin/lexer/variableidentifier/testfiles/PascalCaseVariableIdentifier.icaro")
+            parseTree("test/testfiles/PascalCaseVariableIdentifier.icaro")
         }
     }
+
     @Test
     fun shouldRaiseExceptionBecauseSnakeCaseName() {
         assertThrows<ParseCancellationException> {
-            generateParseTree("src/test/kotlin/lexer/variableidentifier/testfiles/SnakeCaseVariableIdentifier.icaro")
+            parseTree("test/testfiles/SnakeCaseVariableIdentifier.icaro")
         }
     }
+
     @Test
     fun shouldRaiseExceptionBecauseKebabCaseName() {
         assertThrows<ParseCancellationException> {
-            generateParseTree("src/test/kotlin/lexer/variableidentifier/testfiles/KebabCaseVariableIdentifier.icaro")
+            parseTree("test/testfiles/KebabCaseVariableIdentifier.icaro")
         }
     }
 }

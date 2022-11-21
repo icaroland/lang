@@ -1,58 +1,58 @@
-package parser.icarofile
+package parser
 
-import generateParseTree
+import parseTree
 import org.antlr.v4.runtime.misc.ParseCancellationException
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-class IcaroFileParserRuleTest {
+class IcaroFileRuleTest {
     @Test
     fun shouldNotRaiseExceptionBecauseMoreStatementWithNewLines() {
         assertDoesNotThrow {
-            generateParseTree("src/test/kotlin/parser/icarofile/testfiles/moreStatementWithNewLines.icaro")
+            parseTree("test/testfiles/moreStatementWithNewLines.icaro")
         }
     }
 
     @Test
     fun shouldNotRaiseExceptionBecauseSingleStatement() {
         assertDoesNotThrow {
-            generateParseTree("src/test/kotlin/parser/icarofile/testfiles/singleStatement.icaro")
+            parseTree("test/testfiles/singleStatement.icaro")
         }
     }
 
     @Test
     fun shouldRaiseExceptionBecauseNoNewLinesWhenMoreStatement() {
         assertThrows<ParseCancellationException> {
-            generateParseTree("src/test/kotlin/parser/icarofile/testfiles/noNewLinesWhenMoreStatement.icaro")
+            parseTree("test/testfiles/noNewLinesWhenMoreStatement.icaro")
         }
     }
 
     @Test
     fun shouldRaiseExceptionBecauseEmptyFile() {
         assertThrows<ParseCancellationException> {
-            generateParseTree("src/test/kotlin/parser/icarofile/testfiles/emptyFile.icaro")
+            parseTree("test/testfiles/emptyFile.icaro")
         }
     }
 
     @Test
     fun shouldRaiseExceptionBecauseSpacesBeforeStatement() {
         assertThrows<ParseCancellationException> {
-            generateParseTree("src/test/kotlin/parser/icarofile/testfiles/spacesBeforeStatement.icaro")
+            parseTree("test/testfiles/spacesBeforeStatement.icaro")
         }
     }
 
     @Test
     fun shouldRaiseExceptionBecauseSpacesAfterStatement() {
         assertThrows<ParseCancellationException> {
-            generateParseTree("src/test/kotlin/parser/icarofile/testfiles/spacesAfterStatement.icaro")
+            parseTree("test/testfiles/spacesAfterStatement.icaro")
         }
     }
 
     @Test
     fun shouldRaiseExceptionBecauseNewLinesAfterStatement() {
         assertThrows<ParseCancellationException> {
-            generateParseTree("src/test/kotlin/parser/icarofile/testfiles/newLinesAfterStatement.icaro")
+            parseTree("test/testfiles/newLinesAfterStatement.icaro")
         }
     }
 }

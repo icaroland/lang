@@ -1,22 +1,22 @@
-package e2e.statement
+package e2e
 
-import e2e.E2ETest
+import E2ETest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import runIcaroFileWithoutGeneratingClassFile
 
-class StatementE2ETest: E2ETest() {
+class StatementTest: E2ETest() {
     
     @Test
     fun shouldPrintToStdoutTheNumberTreeAfterAssignment() {
-        runIcaroFileWithoutGeneratingClassFile("src/test/kotlin/e2e/statement/testfiles/assignNumber.icaro")
+        runIcaroFileWithoutGeneratingClassFile("test/testfiles/assignNumber.icaro")
 
         assertCaptureStdoutBufferIsEqualTo(listOf(3))
     }
 
     @Test
     fun shouldPrintToStdoutTheNumberFourAfterAssignVariableToOtherOne() {
-        runIcaroFileWithoutGeneratingClassFile("src/test/kotlin/e2e/statement/testfiles/assignVariableToOtherOne.icaro")
+        runIcaroFileWithoutGeneratingClassFile("test/testfiles/assignVariableToOtherOne.icaro")
 
         assertCaptureStdoutBufferIsEqualTo(listOf(4))
     }
@@ -24,7 +24,7 @@ class StatementE2ETest: E2ETest() {
     @Test
     fun shouldThrowWhenUndefinedVariableAssignment() {
         assertThrows<IllegalStateException> {
-            runIcaroFileWithoutGeneratingClassFile("src/test/kotlin/e2e/statement/testfiles/assignUndefinedVariableToOtherOne.icaro")
+            runIcaroFileWithoutGeneratingClassFile("test/testfiles/assignUndefinedVariableToOtherOne.icaro")
         }
     }
 }
