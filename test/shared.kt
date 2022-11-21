@@ -31,5 +31,5 @@ fun runIcaroFileWithoutGeneratingClassFile(icaroFilePath: String) {
             .invoke(null, arrayOf<String>())
     }
 
-    runBytecode(className(icaroFilePath), bytecode(icaroFilePath))
+    runBytecode(className(icaroFilePath), generatedBytecode(icaroFilePath))
 }

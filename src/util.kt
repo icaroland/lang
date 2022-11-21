@@ -8,7 +8,7 @@ const val BINARY_DIR_NAME = ".bin"
 const val CLASSES_DIR_NAME = "classes"
 
 @Throws(IllegalStateException::class)
-fun bytecode(icaroFilePath: String): ByteArray =
+fun generatedBytecode(icaroFilePath: String): ByteArray =
     IcaroCompiler().generatedBytecode(parseTree(icaroFilePath), className(icaroFilePath))
 
 @Throws(ParseCancellationException::class)

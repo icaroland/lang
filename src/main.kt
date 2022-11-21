@@ -7,7 +7,10 @@ import java.io.File
 
 fun main() {
     try {
-        File("$BINARY_DIR_NAME/$CLASSES_DIR_NAME/Main.class").writeBytes(bytecode("$SOURCE_DIR_NAME/$MAIN_SOURCE_FILE"))
+        val sourceFile = "$BINARY_DIR_NAME/$CLASSES_DIR_NAME/Main.class"
+        val targetClassFile = "$SOURCE_DIR_NAME/$MAIN_SOURCE_FILE"
+
+        File(targetClassFile).writeBytes(generatedBytecode(sourceFile))
     } catch (e: Throwable) {
         println(e.message)
     }
