@@ -1,6 +1,7 @@
 import org.antlr.v4.runtime.*
 import org.antlr.v4.runtime.misc.ParseCancellationException
 import java.io.File
+import java.util.*
 
 const val SOURCE_DIR_NAME = "src"
 const val MAIN_SOURCE_FILE = "main.ic"
@@ -10,6 +11,7 @@ const val CLASSES_DIR_NAME = "classes"
 @Throws(IllegalStateException::class)
 fun generatedBytecode(icaroFilePath: String): ByteArray =
     IcaroCompiler().generatedBytecode(parseTree(icaroFilePath), className(icaroFilePath))
+
 
 @Throws(ParseCancellationException::class)
 fun parseTree(icaroFilePath: String): IcaroParser.IcaroFileContext {
@@ -41,4 +43,8 @@ fun parseTree(icaroFilePath: String): IcaroParser.IcaroFileContext {
 }
 
 fun className(icaroFilePath: String) =
-    File(icaroFilePath.substringAfterLast('/')).nameWithoutExtension
+    File(icaroFilePath.substringAfterLast('/')).nameWithoutExtension.replaceFirstChar {
+        if (it.isLowerCase()) it.titlecase(
+            Locale.getDefault()
+        ) else it.toString()
+    }
