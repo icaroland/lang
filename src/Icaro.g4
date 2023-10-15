@@ -9,11 +9,30 @@ assignment_statement : VARIABLE_IDENTIFIER ' ' ASSIGNMENT_OPERATOR ' ' expressio
 
 print_statement : PRINT_KEYWORD ' ' expression ;
 
-expression : expression ' ' (MULTIPLICATION_OPERATOR | DIVISION_OPERATOR) ' ' expression     # MultiplicationOrDivision
-             | expression ' ' (ADDITION_OPERATOR | SUBTRACTION_OPERATOR) ' ' expression      # AdditionOrSubtraction
-             | SUBTRACTION_OPERATOR? LEFT_ROUND_BRACKET expression RIGHT_ROUND_BRACKET       # ExpressionInRoundBrackets
-             | SUBTRACTION_OPERATOR? POSITIVE_INT_NUMBER                                     # IntNumber
-             | SUBTRACTION_OPERATOR? VARIABLE_IDENTIFIER                                     # Variable ;
+expression : math_expression
+           | bool_expression;
+
+math_expression : math_expression ' ' (MULTIPLICATION_OPERATOR | DIVISION_OPERATOR) ' ' math_expression       # MultiplicationOrDivision
+                | math_expression ' ' (ADDITION_OPERATOR | SUBTRACTION_OPERATOR) ' ' math_expression          # AdditionOrSubtraction
+                | SUBTRACTION_OPERATOR? LEFT_ROUND_BRACKET math_expression RIGHT_ROUND_BRACKET                # ExpressionInRoundBrackets
+                | SUBTRACTION_OPERATOR? POSITIVE_INT_NUMBER                                                   # IntNumber
+                | SUBTRACTION_OPERATOR? VARIABLE_IDENTIFIER                                                   # Variable ;
+
+bool_expression : NOT_BOOL_OPERATOR? LEFT_ROUND_BRACKET bool_expression RIGHT_ROUND_BRACKET                   # BoolNotExpression
+                | bool_expression ' ' AND_BOOL_OPERATOR ' ' bool_expression                                   # BoolAndExpression
+                | bool_expression ' ' OR_BOOL_OPERATOR ' ' bool_expression                                    # BoolOrExpression
+                | NOT_BOOL_OPERATOR? TRUE_BOOL_VALUE                                                          # TrueBoolValue
+                | NOT_BOOL_OPERATOR? FALSE_BOOL_VALUE                                                         # FalseBoolValue ;
+
+TRUE_BOOL_VALUE : 'true';
+
+FALSE_BOOL_VALUE : 'false';
+
+NOT_BOOL_OPERATOR : '!';
+
+OR_BOOL_OPERATOR : '||';
+
+AND_BOOL_OPERATOR : '&&';
 
 LEFT_ROUND_BRACKET : '(';
 
